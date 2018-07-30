@@ -4,7 +4,7 @@ import inmemoryfilesystem.components.Directory;
 
 import java.time.ZonedDateTime;
 
-public abstract  class Node {
+public abstract class Node {
     protected String name;
     private Directory parentDirectory;
 

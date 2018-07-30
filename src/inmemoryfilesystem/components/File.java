@@ -11,4 +11,20 @@ public class File extends Node {
         this.content = content;
         this.extention = extention;
     }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getExtention() {
+        return extention;
+    }
+
+    public void setExtention(String extention) {
+        this.extention = extention;
+    }
 }
