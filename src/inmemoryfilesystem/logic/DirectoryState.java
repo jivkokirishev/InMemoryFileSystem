@@ -10,12 +10,13 @@ public class DirectoryState {
     private String rootDirectory;
     private String rawDirectoryPath;
     private Directory currentDirectory;
-    private Collection<String> currentDirectoryPath;
+    private List<String> currentDirectoryPath;
 
     public DirectoryState(String rootDirectory) {
         this.rootDirectory = rootDirectory;
         this.rawDirectoryPath = rootDirectory;
         this.currentDirectoryPath = new LinkedList<>();
+        this.currentDirectoryPath.add("/");
         this.currentDirectory = new Directory(rootDirectory, null);
     }
 
@@ -52,7 +53,7 @@ public class DirectoryState {
         return currentDirectory;
     }
 
-    public Collection<String> getCurrentDirectoryPath() {
+    public List<String> getCurrentDirectoryPath() {
         return currentDirectoryPath;
     }
 }

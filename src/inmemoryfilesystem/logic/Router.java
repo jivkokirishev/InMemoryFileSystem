@@ -14,6 +14,6 @@ public class Router {
     }
 
     public void processCommand(Command command){
-        //TODO: The method should choose the right command algorithm.
+        this.overload.execute(command);
     }
 }

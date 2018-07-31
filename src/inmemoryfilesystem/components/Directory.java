@@ -17,8 +17,8 @@ public class Directory extends Node {
         this.files = new HashMap<>();
     }
 
-    public void addDirectory(String name, Directory directory){
-        this.directories.put(name, directory);
+    public void addDirectory(String name){
+        this.directories.put(name, new Directory(name, this));
         this.editedOn = ZonedDateTime.now();
     }
 
@@ -43,8 +43,8 @@ public class Directory extends Node {
         this.editedOn = ZonedDateTime.now();
     }
 
-    public void addFile(String name, File file){
-        this.files.put(name, file);
+    public void addFile(String name, String content, String extention){
+        this.files.put(name, new File(name, content, extention, this));
         this.editedOn = ZonedDateTime.now();
     }
 

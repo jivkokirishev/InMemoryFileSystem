@@ -4,5 +4,7 @@ import inmemoryfilesystem.commands.Command;
 import inmemoryfilesystem.logic.DirectoryState;
 
 public interface CommandExecutable {
-    void Execute(DirectoryState directoryState, Command command);
+    void execute(DirectoryState directoryState, Command command);
+
+    String description();
 }

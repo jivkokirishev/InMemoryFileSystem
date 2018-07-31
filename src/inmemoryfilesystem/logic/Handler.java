@@ -1,5 +1,10 @@
 package inmemoryfilesystem.logic;
 
+import inmemoryfilesystem.commands.Command;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public class Handler {
 
     private Router router;
@@ -14,7 +19,20 @@ public class Handler {
 
     public void parseCommandLine(String line){
 
-        //TODO: This method should divide the input into command name, parameters and flags, then to create command object and parse it to the router.
-        //this.router.processCommand();
+        String[] args = line.split(" ");
+
+        String name = args[0];
+        List<String> parameters = new LinkedList<>();
+        List<String> flags = new LinkedList<>();
+
+        for (int i = 1; i < args.length; i++){
+            if(args[i].contains("-")){
+                flags.add(args[i]);
+            }
+            else { parameters.add(args[i]); }
+        }
+
+        Command command = new Command(name, parameters, flags);
+        this.router.processCommand(command);
     }
 }

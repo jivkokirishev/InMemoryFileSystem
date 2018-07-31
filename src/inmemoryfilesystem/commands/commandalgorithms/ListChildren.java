@@ -9,21 +9,34 @@ import inmemoryfilesystem.logic.DirectoryState;
 import java.util.stream.Stream;
 
 public class ListChildren implements CommandExecutable {
+    private static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_RESET = "\u001B[0m";
+
     @Override
-    public void Execute(DirectoryState directoryState, Command command) {
+    public void execute(DirectoryState directoryState, Command command) {
+
+        for (File file : directoryState.getCurrentDirectory().listAllFiles()) {
+            System.out.print(ANSI_BLUE);
+            if (!file.getExtention().isEmpty()){
+                StringBuilder fullName = new StringBuilder();
+                fullName.append(file.getName())
+                        .append(".")
+                        .append(file.getExtention())
+                        .append("  ")
+                        .append(ANSI_RESET);
+                System.out.print(fullName.toString());
+            }else { System.out.print(file.getName() + "  " + ANSI_RESET); }
+        }
+
         for (Directory dir : directoryState.getCurrentDirectory().listAllDirectories()) {
             System.out.print(dir.getName() + "  ");
         }
 
-        for (File file : directoryState.getCurrentDirectory().listAllFiles()) {
-            Stream.Builder<String> builder = Stream.builder();
+        System.out.println();
+    }
 
-            Stream<String> fullName = builder.add(file.getName())
-                    .add(".")
-                    .add(file.getExtention())
-                    .add("  ").build();
-
-            fullName.forEach(System.out::println);
-        }
+    @Override
+    public String description() {
+        return "List all directories and files in the current directory.";
     }
 }
