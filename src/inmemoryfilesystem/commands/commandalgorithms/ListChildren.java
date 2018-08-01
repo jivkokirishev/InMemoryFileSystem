@@ -6,8 +6,6 @@ import inmemoryfilesystem.components.Directory;
 import inmemoryfilesystem.components.File;
 import inmemoryfilesystem.logic.DirectoryState;
 
-import java.util.stream.Stream;
-
 public class ListChildren implements CommandExecutable {
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String ANSI_RESET = "\u001B[0m";

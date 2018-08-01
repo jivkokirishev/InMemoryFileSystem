@@ -4,8 +4,6 @@ import inmemoryfilesystem.commands.Command;
 import inmemoryfilesystem.commands.contracts.CommandExecutable;
 import inmemoryfilesystem.logic.DirectoryState;
 
-import java.util.LinkedList;
-
 public class ChangeDirectory implements CommandExecutable {
     @Override
     public void execute(DirectoryState directoryState, Command command) {

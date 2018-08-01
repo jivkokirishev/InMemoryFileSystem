@@ -2,14 +2,8 @@ package inmemoryfilesystem.commands.commandalgorithms;
 
 import inmemoryfilesystem.commands.Command;
 import inmemoryfilesystem.commands.contracts.CommandExecutable;
-import inmemoryfilesystem.components.File;
 import inmemoryfilesystem.logic.DirectoryState;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.mapping;
-import static java.util.stream.Collectors.toList;
 
 public class CreateFile implements CommandExecutable {
     @Override
