@@ -1,18 +1,26 @@
 package inmemoryfilesystem.components.contracts;
 
+import inmemoryfilesystem.common.Validator;
 import inmemoryfilesystem.components.Directory;
+import inmemoryfilesystem.users.User;
 
 import java.time.ZonedDateTime;
 
 public abstract class Node {
-    protected String name;
-    private Directory parentDirectory;
 
+    private Directory parentDirectory;
+    private User owner;
+
+    protected String name;
     protected ZonedDateTime createdOn;
     protected ZonedDateTime editedOn;
 
-    public Node(String name, Directory parentDirectory){
+    public Node(String name, Directory parentDirectory, User owner){
+        Validator.checkIfNullOrEmpty(name);
+        Validator.checkIfNull(owner, owner.getClass().getName());
+
         this.name = name;
+        this.owner = owner;
         this.setParentDirectory(parentDirectory);
         this.createdOn = ZonedDateTime.now();
         this.editedOn = ZonedDateTime.now();
@@ -40,5 +48,13 @@ public abstract class Node {
 
     public void setParentDirectory(Directory parentDirectory) {
         this.parentDirectory = parentDirectory;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

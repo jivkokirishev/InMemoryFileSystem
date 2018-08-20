@@ -1,6 +1,8 @@
 package inmemoryfilesystem.logic;
 
 import inmemoryfilesystem.commands.Command;
+import inmemoryfilesystem.common.Validator;
+import inmemoryfilesystem.users.UserState;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,15 +11,21 @@ public class Handler {
 
     private Router router;
 
-    public Handler(DirectoryState directoryState) {
-        this.router = new Router(directoryState);
+    public Handler(DirectoryState directoryState, UserState userState) {
+        Validator.checkIfNull(directoryState, directoryState.getClass().getName());
+        Validator.checkIfNull(userState, userState.getClass().getName());
+
+        this.router = new Router(directoryState, userState);
     }
 
     public Handler(Router router) {
+        Validator.checkIfNull(router, router.getClass().getName());
+
         this.router = router;
     }
 
     public void parseCommandLine(String line){
+        Validator.checkIfNullOrEmpty(line);
 
         String[] args = line.split(" ");
 

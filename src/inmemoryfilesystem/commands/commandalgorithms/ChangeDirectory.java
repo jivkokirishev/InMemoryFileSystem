@@ -2,14 +2,31 @@ package inmemoryfilesystem.commands.commandalgorithms;
 
 import inmemoryfilesystem.commands.Command;
 import inmemoryfilesystem.commands.contracts.CommandExecutable;
+import inmemoryfilesystem.common.Validator;
 import inmemoryfilesystem.logic.DirectoryState;
+
+import java.security.InvalidParameterException;
 
 public class ChangeDirectory implements CommandExecutable {
     @Override
     public void execute(DirectoryState directoryState, Command command) {
-        String path = command.getParameters().get(0);
+        Validator.checkIfNull(directoryState, directoryState.getClass().getName());
+        Validator.checkIfNull(command, command.getClass().getName());
+
+        String path = "";
+        try {
+            path = command.getParameters().get(0);
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("There is not any path.");
+            return;
+        }
 
         String[] pathParams = path.split("/");
+
+        if (pathParams.length < 1){
+            System.out.println("The path is not correct.");
+            return;
+        }
 
         for (String param: pathParams) {
             if (param.equals(".") || param.equals("")) continue;
@@ -22,7 +39,11 @@ public class ChangeDirectory implements CommandExecutable {
                 }
             }
             else{
-                directoryState.goToNextDirectory(param);
+                try {
+                    directoryState.goToNextDirectory(param);
+                }catch (InvalidParameterException e){
+                    System.out.println(e.getMessage());
+                }
             }
         }
     }

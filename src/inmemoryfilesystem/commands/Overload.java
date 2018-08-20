@@ -2,6 +2,7 @@ package inmemoryfilesystem.commands;
 
 import inmemoryfilesystem.commands.commandalgorithms.*;
 import inmemoryfilesystem.commands.contracts.CommandExecutable;
+import inmemoryfilesystem.common.Validator;
 import inmemoryfilesystem.logic.DirectoryState;
 
 import java.util.HashMap;
@@ -14,6 +15,8 @@ public class Overload {
     private Map<String, CommandExecutable> commandAlgorithms;
 
     public Overload(DirectoryState directoryState){
+        Validator.checkIfNull(directoryState, directoryState.getClass().getName());
+
         this.directoryState = directoryState;
         this.commandAlgorithms = new HashMap<>();
 
@@ -27,9 +30,13 @@ public class Overload {
         this.commandAlgorithms.put("mkdir", new MakeDirectory());
         this.commandAlgorithms.put("touch", new CreateFile());
         this.commandAlgorithms.put("cat", new EditViewContent());
+        this.commandAlgorithms.put("rm", new RemoveNode());
+        this.commandAlgorithms.put("exit", new ExitFileSystem());
+
     }
 
     public void execute(Command command){
+        Validator.checkIfNull(command, command.getClass().getName());
 
         if (command.getName().equals("help")){
             List<String> parameters = command.getParameters();
@@ -42,6 +49,10 @@ public class Overload {
                 }
             }
         } else {
+            if (!this.commandAlgorithms.containsKey(command.getName())){
+                System.out.println("There is no such command.");
+                return;
+            }
             this.commandAlgorithms.get(command.getName()).execute(this.directoryState, command);
         }
 

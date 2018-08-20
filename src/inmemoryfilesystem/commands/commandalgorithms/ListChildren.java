@@ -2,6 +2,7 @@ package inmemoryfilesystem.commands.commandalgorithms;
 
 import inmemoryfilesystem.commands.Command;
 import inmemoryfilesystem.commands.contracts.CommandExecutable;
+import inmemoryfilesystem.common.Validator;
 import inmemoryfilesystem.components.Directory;
 import inmemoryfilesystem.components.File;
 import inmemoryfilesystem.logic.DirectoryState;
@@ -12,6 +13,8 @@ public class ListChildren implements CommandExecutable {
 
     @Override
     public void execute(DirectoryState directoryState, Command command) {
+        Validator.checkIfNull(directoryState, directoryState.getClass().getName());
+        Validator.checkIfNull(command, command.getClass().getName());
 
         for (File file : directoryState.getCurrentDirectory().listAllFiles()) {
             System.out.print(ANSI_BLUE);

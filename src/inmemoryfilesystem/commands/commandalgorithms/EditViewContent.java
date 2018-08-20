@@ -2,6 +2,7 @@ package inmemoryfilesystem.commands.commandalgorithms;
 
 import inmemoryfilesystem.commands.Command;
 import inmemoryfilesystem.commands.contracts.CommandExecutable;
+import inmemoryfilesystem.common.Validator;
 import inmemoryfilesystem.components.File;
 import inmemoryfilesystem.logic.DirectoryState;
 
@@ -15,16 +16,32 @@ public class EditViewContent implements CommandExecutable {
 
     @Override
     public void execute(DirectoryState directoryState, Command command) {
+        Validator.checkIfNull(directoryState, directoryState.getClass().getName());
+        Validator.checkIfNull(command, command.getClass().getName());
+
         this.directoryState = directoryState;
 
-        String firstParam = command.getParameters().get(0);
+        String firstParam = "";
+        try {
+            firstParam = command.getParameters().get(0);
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("This operation requires parameters to work. Please read how to use it in help section.");
+            return;
+        }
 
         if(firstParam.equals(">") || firstParam.equals(">>")){
             command.getParameters().remove(0);
             CreateFile crFile = new CreateFile();
             crFile.execute(directoryState, command);
 
-            File file = this.searchFile(command.getParameters().get(0));
+            File file;
+            try {
+
+                file = this.searchFile(command.getParameters().get(0));
+            } catch (IndexOutOfBoundsException e){
+                System.out.println(String.format("File %s does NOT exist!", command.getParameters().get(0)));
+                return;
+            }
 
             StringBuilder content = new StringBuilder();
             Scanner input = new Scanner(System.in);
@@ -56,6 +73,7 @@ public class EditViewContent implements CommandExecutable {
                 System.out.println(file.getContent());
             } catch (IndexOutOfBoundsException e){
                 System.out.println(String.format("File %s does NOT exist!", firstParam));
+                return;
             }
 
         }

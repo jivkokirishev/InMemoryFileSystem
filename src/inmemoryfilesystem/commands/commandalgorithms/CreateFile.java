@@ -2,13 +2,25 @@ package inmemoryfilesystem.commands.commandalgorithms;
 
 import inmemoryfilesystem.commands.Command;
 import inmemoryfilesystem.commands.contracts.CommandExecutable;
+import inmemoryfilesystem.common.Validator;
 import inmemoryfilesystem.logic.DirectoryState;
 
 
 public class CreateFile implements CommandExecutable {
     @Override
     public void execute(DirectoryState directoryState, Command command) {
-        String fileName = command.getParameters().get(0);
+        Validator.checkIfNull(directoryState, directoryState.getClass().getName());
+        Validator.checkIfNull(command, command.getClass().getName());
+
+        String fileName = "";
+        try {
+            fileName = command.getParameters().get(0);
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("This operation requires parameters to work. Please read how to use it in help section.");
+            return;
+        }
+
+
         String name = fileName;
         String ext = "";
         if(fileName.contains("\\.")){
